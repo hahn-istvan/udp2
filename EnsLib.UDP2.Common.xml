@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.1.1 (Build 111U)" ts="2018-01-29 11:32:40">
+<Class name="EnsLib.UDP2.Common">
+<Description>
+New UDP Adapter based on %Net.UDP functionality</Description>
+<Abstract>1</Abstract>
+<TimeChanged>64671,64054.475103</TimeChanged>
+<TimeCreated>64671,57518.122858</TimeCreated>
+
+<Parameter name="MAXPACKETSIZE">
+<Default>16384</Default>
+</Parameter>
+
+<Property name="%Port">
+<Type>%Net.UDP</Type>
+</Property>
+</Class>
+</Export>

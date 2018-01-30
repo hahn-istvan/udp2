@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.1.1 (Build 111U)" ts="2018-01-29 11:33:13">
+<Class name="EnsLib.UDP2.InboundAdapter">
+<Super>Ens.InboundAdapter,EnsLib.UDP2.Common</Super>
+<TimeChanged>64673,80788.375982</TimeChanged>
+<TimeCreated>64671,63431.754309</TimeCreated>
+
+<Property name="Port">
+<Type>Ens.DataType.TCPAgentPort</Type>
+</Property>
+
+<Property name="ReadTimeout">
+<Type>%Integer</Type>
+<InitialExpression>10</InitialExpression>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>Port,ReadTimeout</Default>
+</Parameter>
+
+<Method name="OnInit">
+<Description>
+This user callback method is called just after %OnNew()</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set ..%Port = ##class(%Net.UDP).%New(..Port)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnTearDown">
+<Description>
+This user callback method is called just before %OnClose()</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set ..%Port=""
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnTask">
+<Description>
+default InboundAdapter behavior: always call ProcessInput on CallInterval</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set tSC = $$$OK
+	if ..%Port = "" quit $$$ERROR(5001,"Unable to bind port: "_..Port)
+	set packet = ..%Port.Recv(..ReadTimeout)
+	if $length(packet)>0 {
+		set request = ##class(EnsLib.UDP2.Request).%New()
+		set request.Packet = packet
+		set request.HostAddress = ..%Port.LastAddr
+		set request.Port = ..%Port.LastPort
+		set tSC = ..BusinessHost.ProcessInput(request)
+	}
+	else {
+		set ..BusinessHost.%WaitForNextCallInterval = 1
+	}
+	Quit tSC
+]]></Implementation>
+</Method>
+</Class>
+</Export>

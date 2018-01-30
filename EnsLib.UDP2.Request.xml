@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.1.1 (Build 111U)" ts="2018-01-29 11:34:07">
+<Class name="EnsLib.UDP2.Request">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeChanged>64671,64658.952211</TimeChanged>
+<TimeCreated>64671,64658.952211</TimeCreated>
+
+<Property name="HostAddress">
+<Type>%String</Type>
+</Property>
+
+<Property name="Port">
+<Type>%String</Type>
+</Property>
+
+<Property name="Packet">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+</Class>
+</Export>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.1.1 (Build 111U)" ts="2018-01-29 11:33:41">
+<Class name="EnsLib.UDP2.OutboundAdapter">
+<Super>Ens.OutboundAdapter,EnsLib.UDP2.Common</Super>
+<TimeChanged>64673,80130.18608</TimeChanged>
+<TimeCreated>64671,73788.447241</TimeCreated>
+
+<Property name="HostAddress">
+<Type>%String</Type>
+</Property>
+
+<Property name="Port">
+<Type>Ens.DataType.TCPAgentPort</Type>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>HostAddress,Port</Default>
+</Parameter>
+
+<Method name="Send">
+<FormalSpec>msg</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	quit:$length(msg)>..#MAXPACKETSIZE $$$ERROR(5001, "Maximum packet size "_..#MAXPACKETSIZE_" exceeded")
+	$$$TRACE("Entering")
+	set ..%Port = ##class(%Net.UDP).%New(,,,..#MAXPACKETSIZE)
+	$$$TRACE("UDP port "_..%Port_" has been created")
+	quit:'$isObject(..%Port) $$$ERROR(5001, "Unable to open UDP")
+	$$$TRACE("Sending message "_msg)
+	set bytes = ..%Port.Send(msg, ..%Port.GetHostAddr(..HostAddress), ..Port)
+	set ..%Port = $$$NULLOREF
+	quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>
